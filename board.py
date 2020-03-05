@@ -28,19 +28,6 @@ class GameBoard:
 
 
     def step(self):
-        # check if application ended
-        if self.mode == 'TERMINATE APPLICATION':
-            print('application terminated')
-            pass
-
-        elif self.mode == 'GAME OVER':
-            print('game over')
-            for i in reversed(range(1, 4)):
-                print('exit in', i, 'seconds')
-                time.sleep(1)
-            self.caller.closeSignal()
-
-        
         add = False
         while self.mode == 'IN GAME':
             bs = self.board_size
@@ -53,6 +40,21 @@ class GameBoard:
                 add = True
 
             self.caller.goSign()
+
+        # check if application ended
+        if self.mode == 'TERMINATE APPLICATION':
+            print('application terminated')
+            pass
+
+        elif self.mode == 'GAME OVER':
+            print('game over')
+            for i in reversed(range(1, 4)):
+                print('exit in', i, 'seconds')
+                time.sleep(1)
+            print('send close signal')
+            self.caller.closeSignal()
+            print('close signal complete')
+        print('end of step func')
 
 
     def movesnake(self):

@@ -22,8 +22,8 @@ class Frame(QWidget):
         self.HEIGHT = self.rect().height()
         self.game = GameBoard(self)
 
-        t1 = threading.Thread(target=self.game.step)
-        t1.start()
+        self.t1 = threading.Thread(target=self.game.step)
+        self.t1.start()
 
     def paintEvent(self, e):
         qp = Painter(self)
@@ -73,8 +73,9 @@ class Frame(QWidget):
         self.game.close()
 
     def closeSignal(self):
+        print(self.t1.is_alive())
         self.close()
         self.deleteLater()
 
     def goSign(self):
-        time.sleep(0.3)
+        time.sleep(0.5)
