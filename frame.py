@@ -20,7 +20,7 @@ class Frame(QWidget):
         self.initUI()
         self.WIDTH = self.rect().width()
         self.HEIGHT = self.rect().height()
-        self.game = GameBoard(self, self.WIDTH, self.HEIGHT)
+        self.game = GameBoard(self)
 
         t1 = threading.Thread(target=self.game.step)
         t1.start()
@@ -58,13 +58,13 @@ class Frame(QWidget):
     def keyPressEvent(self, QKeyEvent):
         key = QKeyEvent.key()
         if key == Qt.Key_Left:
-            self.game.getinput('left')
+            self.game.getInput('left')
         elif key == Qt.Key_Right:
-            self.game.getinput('right')
+            self.game.getInput('right')
         elif key == Qt.Key_Down:
-            self.game.getinput('down')
+            self.game.getInput('down')
         elif key == Qt.Key_Up:
-            self.game.getinput('up')
+            self.game.getInput('up')
 
     def keyReleaseEvent(self, QKeyEvent):
         pass
@@ -72,6 +72,9 @@ class Frame(QWidget):
     def closeEvent(self, QCloseEvent):
         self.game.close()
 
-    def closesignal(self):
+    def closeSignal(self):
         self.close()
         self.deleteLater()
+
+    def goSign(self):
+        time.sleep(0.3)
