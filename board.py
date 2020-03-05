@@ -51,10 +51,7 @@ class GameBoard:
             for i in reversed(range(1, 4)):
                 print('exit in', i, 'seconds')
                 time.sleep(1)
-            print('send close signal')
             self.caller.closeSignal()
-            print('close signal complete')
-        print('end of step func')
 
 
     def movesnake(self):

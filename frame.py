@@ -21,6 +21,7 @@ class Frame(QWidget):
         self.WIDTH = self.rect().width()
         self.HEIGHT = self.rect().height()
         self.game = GameBoard(self)
+        self.gameOn = True
 
         self.t1 = threading.Thread(target=self.game.step)
         self.t1.start()
@@ -32,6 +33,12 @@ class Frame(QWidget):
         qp.end()
         self.update()
         time.sleep(0.01)
+        if self.gameOn == False:
+            while self.t1.is_alive() == True:
+                print('unable to close window: thread is alive')
+                time.sleep(0.5)
+            self.close()
+            self.deleteLater()
 
     def drawgrid(self, qp):
         qp.setcolor(Qt.gray)
@@ -43,10 +50,6 @@ class Frame(QWidget):
         qp.drawstring(5, 5, 'location: '+str(self.game.snake[0]))
         qp.drawstring(5, 20, 'food: '+str(self.game.food))
         qp.drawstring(5, 35, 'len: '+str(len(self.game.snake)))
-
-
-    def drawBox(self, qp):
-        pass
 
     def initUI(self):
         self.setGeometry(300, 300, 500, 500)
@@ -66,16 +69,12 @@ class Frame(QWidget):
         elif key == Qt.Key_Up:
             self.game.getInput('up')
 
-    def keyReleaseEvent(self, QKeyEvent):
-        pass
 
     def closeEvent(self, QCloseEvent):
         self.game.close()
 
     def closeSignal(self):
-        print(self.t1.is_alive())
-        self.close()
-        self.deleteLater()
+        self.gameOn = False
 
     def goSign(self):
         time.sleep(0.5)
